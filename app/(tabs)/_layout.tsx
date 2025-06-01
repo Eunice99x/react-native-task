@@ -5,42 +5,38 @@ const _layout = () => {
   return (
     <Tabs
       screenOptions={{
-        tabBarStyle: {backgroundColor: "#1F2937"},
-        tabBarActiveTintColor: "#60A5FA",
+        tabBarStyle: {backgroundColor: "#eee"},
+        tabBarActiveTintColor: "#c67c4e",
         tabBarInactiveTintColor: "#9CA3AF",
-        tabBarShowLabel: true
+        tabBarShowLabel: false
       }}
     >
       <Tabs.Screen
         name='index'
         options={{
-          title: "Home",
           headerShown: false,
           tabBarIcon: ({color, size}) => <Ionicons name='home' size={size} color={color} />
         }}
       />
       <Tabs.Screen
-        name='search'
-        options={{
-          title: "Search",
-          headerShown: false,
-          tabBarIcon: ({color, size}) => <Ionicons name='search' size={size} color={color} />
-        }}
-      />
-      <Tabs.Screen
         name='saved'
         options={{
-          title: "Saved",
           headerShown: false,
-          tabBarIcon: ({color, size}) => <Ionicons name='bookmark' size={size} color={color} />
+          tabBarIcon: ({color, size}) => <Ionicons name='heart' size={size} color={color} />
         }}
       />
       <Tabs.Screen
-        name='profile'
+        name='bag'
         options={{
-          title: "Profile",
           headerShown: false,
-          tabBarIcon: ({color, size}) => <Ionicons name='person' size={size} color={color} />
+          tabBarIcon: ({color, size}) => <Ionicons name='bag' size={size} color={color} />
+        }}
+      />
+      <Tabs.Screen
+        name='notifications'
+        options={{
+          headerShown: false,
+          tabBarIcon: ({color, size}) => <Ionicons name='notifications' size={size} color={color} />
         }}
       />
     </Tabs>

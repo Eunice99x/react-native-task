@@ -1,7 +1,7 @@
 import {Ionicons} from "@expo/vector-icons";
 import {Image, Pressable, ScrollView, Text, View} from "react-native";
 
-const Profile = () => {
+const notifications = () => {
   const menuItems = [
     {id: "1", title: "Account Settings", icon: "person-outline"},
     {id: "2", title: "Notification Settings", icon: "notifications-outline"},
@@ -42,7 +42,7 @@ const Profile = () => {
       <View className='p-4'>
         {menuItems.map(item => (
           <Pressable key={item.id} className='flex-row items-center py-4 border-b border-gray-800'>
-            <Ionicons name={item.icon} size={24} color='#60A5FA' />
+            {/* <Ionicons name={item.icon} size={24} color='#60A5FA' /> */}
             <Text className='text-white text-lg ml-4 flex-1'>{item.title}</Text>
             <Ionicons name='chevron-forward' size={20} color='#9CA3AF' />
           </Pressable>
@@ -57,4 +57,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default notifications;
