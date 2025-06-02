@@ -1,9 +1,10 @@
-import {Text, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 const saved = () => {
   return (
     <View>
-      <Text>search</Text>
+      <Text>saved</Text>
     </View>
   );
 };
 export default saved;
+const styles = StyleSheet.create({});
