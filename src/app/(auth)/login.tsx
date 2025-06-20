@@ -9,30 +9,47 @@ export default function Login() {
   const dispatch = useDispatch();
   const [form, setForm] = useState({name: "", email: ""});
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // Email format validation
+  const isValidEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  // Mock valid credentials
+  const validUser = {name: "John Doe", email: "john@example.com"};
 
   const handleLogin = async () => {
+    setError("");
     if (!form.name.trim() || !form.email.trim()) {
+      setError("Please fill in all fields.");
       return;
     }
-
+    if (!isValidEmail(form.email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
     setIsLoading(true);
-
-    // Simulate API call delay
     setTimeout(() => {
-      dispatch(
-        authActions.setUser({
-          user: {name: form.name, email: form.email},
-          isAuthenticated: true,
-          loading: false,
-          error: null
-        })
-      );
-      setIsLoading(false);
-      router.replace("/");
+      if (form.name.trim() === validUser.name && form.email.trim().toLowerCase() === validUser.email) {
+        dispatch(
+          authActions.setUser({
+            user: {name: form.name, email: form.email},
+            isAuthenticated: true,
+            loading: false,
+            error: null
+          })
+        );
+        setIsLoading(false);
+        router.replace("/");
+      } else {
+        setIsLoading(false);
+        setError("Invalid credentials. Please try again.");
+      }
     }, 1000);
   };
 
-  const isFormValid = form.name.trim() && form.email.trim();
+  const isFormValid = form.name.trim() && isValidEmail(form.email);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -47,6 +64,8 @@ export default function Login() {
 
           {/* Form */}
           <View style={styles.form}>
+            {error ? <Text style={{color: "#dc2626", marginBottom: 12, textAlign: "center"}}>{error}</Text> : null}
+
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Name</Text>
               <TextInput placeholder='Enter your name' placeholderTextColor='#9CA3AF' value={form.name} onChangeText={text => setForm({...form, name: text})} style={styles.input} autoCapitalize='words' returnKeyType='next' />
@@ -77,7 +96,7 @@ export default function Login() {
           <View style={styles.footer}>
             <Text style={styles.footerText}>
               Don't have an account?{" "}
-              <Link href='/register' >
+              <Link href='/register'>
                 <ThemedText type='link'>sign up</ThemedText>
               </Link>
             </Text>
