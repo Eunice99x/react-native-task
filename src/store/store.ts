@@ -2,19 +2,21 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import {FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE} from "redux-persist";
 import {authSlice} from "./slices/authSlice";
+import {postsSlice} from "./slices/postsSlice";
 import {themeSlice} from "./slices/themeSlice";
 
 // Combine your reducers
 const rootReducer = combineReducers({
   auth: authSlice.reducer,
-  theme: themeSlice.reducer
+  theme: themeSlice.reducer,
+  posts: postsSlice.reducer
 });
 
 // Config for Redux Persist
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["auth"] // persist only auth slice
+  whitelist: ["auth", "posts"] // persist auth and posts slices
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

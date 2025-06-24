@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ColorSchemeName } from 'react-native';
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {ColorSchemeName} from "react-native";
 
 interface ThemeState {
   colorScheme: ColorSchemeName;
@@ -7,12 +7,12 @@ interface ThemeState {
 }
 
 const initialState: ThemeState = {
-  colorScheme: 'light',
-  useSystemTheme: true,
+  colorScheme: "light",
+  useSystemTheme: true
 };
 
 export const themeSlice = createSlice({
-  name: 'theme',
+  name: "theme",
   initialState,
   reducers: {
     setColorScheme: (state, action: PayloadAction<ColorSchemeName>) => {
@@ -20,6 +20,8 @@ export const themeSlice = createSlice({
     },
     setUseSystemTheme: (state, action: PayloadAction<boolean>) => {
       state.useSystemTheme = action.payload;
-    },
-  },
+    }
+  }
 });
+
+export const themeActions = themeSlice.actions;

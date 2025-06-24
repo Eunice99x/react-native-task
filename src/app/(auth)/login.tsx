@@ -1,5 +1,7 @@
 import {ThemedText} from "@/src/components/common/ThemedText";
+import {useToast} from "@/src/components/ui/Toast";
 import {authActions} from "@/src/store/slices/authSlice";
+import DemoService from "@/src/utils/demo";
 import {Link, router} from "expo-router";
 import {useState} from "react";
 import {KeyboardAvoidingView, Platform, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
@@ -7,6 +9,7 @@ import {useDispatch} from "react-redux";
 
 export default function Login() {
   const dispatch = useDispatch();
+  const {showToast} = useToast();
   const [form, setForm] = useState({name: "", email: ""});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -22,11 +25,15 @@ export default function Login() {
   const handleLogin = async () => {
     setError("");
     if (!form.name.trim() || !form.email.trim()) {
-      setError("Please fill in all fields.");
+      const errorMsg = "Please fill in all fields.";
+      setError(errorMsg);
+      showToast(errorMsg, "error");
       return;
     }
     if (!isValidEmail(form.email)) {
-      setError("Please enter a valid email address.");
+      const errorMsg = "Please enter a valid email address.";
+      setError(errorMsg);
+      showToast(errorMsg, "error");
       return;
     }
     setIsLoading(true);
@@ -41,10 +48,17 @@ export default function Login() {
           })
         );
         setIsLoading(false);
+        showToast(`Welcome back, ${form.name}!`, "success");
+
+        // Run demo services
+        DemoService.runAuthDemo(form.name);
+
         router.replace("/");
       } else {
         setIsLoading(false);
-        setError("Invalid credentials. Please try again.");
+        const errorMsg = "Invalid credentials. Please try again.";
+        setError(errorMsg);
+        showToast(errorMsg, "error");
       }
     }, 1000);
   };
@@ -90,6 +104,12 @@ export default function Login() {
             <TouchableOpacity style={[styles.loginButton, (!isFormValid || isLoading) && styles.loginButtonDisabled]} onPress={handleLogin} disabled={!isFormValid || isLoading} activeOpacity={0.8}>
               <Text style={styles.loginButtonText}>{isLoading ? "Signing In..." : "Sign In"}</Text>
             </TouchableOpacity>
+
+            <View style={styles.forgotPassword}>
+              <Link href='/forgot-password'>
+                <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
+              </Link>
+            </View>
           </View>
 
           {/* Footer */}
@@ -205,5 +225,14 @@ const styles = StyleSheet.create({
   footerLink: {
     color: "#FFFFFF",
     fontWeight: "600"
+  },
+  forgotPassword: {
+    alignItems: "center",
+    marginTop: 16
+  },
+  forgotPasswordText: {
+    color: "#667eea",
+    fontSize: 14,
+    fontWeight: "500"
   }
 });
